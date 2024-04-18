@@ -23,11 +23,9 @@ def start_game():
         choice = input("Enter your choice: ")
 
         if choice == "1":
-            print("You encounter a trap! You lose 20 health.")
-            player_health -= 20
+            random_event(player_health)
         elif choice == "2":
-            print("You find a treasure chest! You gain 30 health.")
-            player_health += 30
+            random_event(player_health)
         elif choice == "3":
             print("You encounter the mythical creature!")
             battle_result = battle(player_health, creature_health)
@@ -41,6 +39,20 @@ def start_game():
             is_alive = False
         else:
             print("Invalid choice. Please try again.")
+
+def random_event(player_health):
+    event = random.choice(["trap", "treasure", "nothing"])
+
+    if event == "trap":
+        trap_damage = random.randint(10, 30)
+        print("You encounter a trap! You lose", trap_damage, "health.")
+        player_health -= trap_damage
+    elif event == "treasure":
+        treasure_health = random.randint(20, 40)
+        print("You find a treasure chest! You gain", treasure_health, "health.")
+        player_health += treasure_health
+    else:
+        print("You explore the area but find nothing of interest.")
 
 def battle(player_health, creature_health):
     while player_health > 0 and creature_health > 0:
