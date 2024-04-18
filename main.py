@@ -27,13 +27,7 @@ def start_game():
         elif choice == "2":
             random_event(player_health, creature_health)
         elif choice == "3":
-            print("You encounter the mythical creature!")
-            battle_result = battle(player_health, creature_health)
-            if battle_result == "win":
-                print("Congratulations! You retrieved the artifact and saved the kingdom.")
-            else:
-                print("You were defeated. Game over.")
-            is_alive = False
+            random_event(player_health, creature_health)
         elif choice == "4":
             print("Exiting game.")
             is_alive = False
