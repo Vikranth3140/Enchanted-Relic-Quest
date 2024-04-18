@@ -102,7 +102,7 @@ def battle(player_health, creature_health, inventory):
             print("The creature attacks you and deals", creature_attack, "damage.")
             player_health -= creature_attack
         elif battle_choice == "2":
-            use_item_from_inventory(player_health, inventory)
+            use_item_from_inventory(player_health, creature_health, inventory)
         elif battle_choice == "3":
             print("You retreat from the battle.")
             return "lose"
@@ -127,22 +127,7 @@ def merge_inventories(inventory, new_inventory):
         else:
             inventory[item] = quantity
 
-def random_item_effect(player_health, inventory):
-    random_item = random.choice(["Sword", "Shield", "Scroll of Fireball", "Potion"])
-    if random_item == "Sword":
-        player_health += 20
-        print("You found a powerful sword! Your attack damage is increased.")
-    elif random_item == "Shield":
-        player_health -= 10
-        print("You obtained a sturdy shield! You take reduced damage in battles.")
-    elif random_item == "Scroll of Fireball":
-       enemy_health -= 50
-       print("You acquired a Scroll of Fireball! You can use it to deal massive damage in battles.")
-    elif random_item == "Potion":
-        potion_health = random.randint(15, 25)
-        print(f"You found a healing potion! You can use it to restore health during battles. You gain {potion_health} health.")
-        player_health += potion_health
-def use_item_from_inventory(player_health, inventory):
+def use_item_from_inventory(player_health, creature_health, inventory):
     print("Items in inventory:")
     for item, quantity in inventory.items():
         print(f"{item}: {quantity}")
@@ -155,9 +140,27 @@ def use_item_from_inventory(player_health, inventory):
             player_health += potion_health
             remove_item_from_inventory(inventory, "Potion", 1)
         else:
-            print("You cannot use this item in battle.")
+            if item_to_use in ["Sword", "Shield", "Scroll of Fireball"]:
+                random_item_effect(player_health, creature_health, inventory, item_to_use)
+            else:
+                print("You cannot use this item in battle.")
     else:
         print("Item not found in inventory or quantity insufficient.")
+
+def random_item_effect(player_health, creature_health, inventory, random_item):
+    if random_item == "Sword":
+        player_health += 20
+        print("You found a powerful sword! Your attack damage is increased.")
+    elif random_item == "Shield":
+        player_health -= 10
+        print("You obtained a sturdy shield! You take reduced damage in battles.")
+    elif random_item == "Scroll of Fireball":
+        creature_health -= 50
+        print("You acquired a Scroll of Fireball! You can use it to deal massive damage in battles.")
+    elif random_item == "Potion":
+        potion_health = random.randint(15, 25)
+        print(f"You found a healing potion! You can use it to restore health during battles. You gain {potion_health} health.")
+        player_health += potion_health
 
 def add_random_item_to_inventory(inventory):
     items = ["Sword", "Shield", "Scroll of Fireball", "Potion"]
