@@ -59,10 +59,10 @@ def random_event(player_health, creature_health, inventory):
         treasure_health = random.randint(20, 40)
         print("You find a treasure chest! You gain", treasure_health, "health.")
         player_health += treasure_health
-        add_item_to_inventory(inventory, "Potion", 1)  # Example: Add a potion to inventory
+        add_random_item_to_inventory(inventory)
     elif event == "creature":
         print("You encounter a hostile creature!")
-        battle_result = battle(player_health, creature_health)
+        battle_result = battle(player_health, creature_health, inventory)
         if battle_result == "win":
             print("You defeated the creature and continue your journey.")
         else:
@@ -71,7 +71,7 @@ def random_event(player_health, creature_health, inventory):
     else:
         print("You explore the area but find nothing of interest.")
 
-def battle(player_health, creature_health):
+def battle(player_health, creature_health, inventory):
     while player_health > 0 and creature_health > 0:
         player_attack = random.randint(10, 20)
         creature_attack = random.randint(5, 15)
@@ -80,7 +80,7 @@ def battle(player_health, creature_health):
         print("Creature health:", creature_health)
 
         print("1. Attack")
-        print("2. Use potion")
+        print("2. Use item")
         print("3. Retreat")
 
         battle_choice = input("Enter your choice: ")
@@ -92,13 +92,7 @@ def battle(player_health, creature_health):
             print("The creature attacks you and deals", creature_attack, "damage.")
             player_health -= creature_attack
         elif battle_choice == "2":
-            if "Potion" in inventory and inventory["Potion"] > 0:
-                potion_health = random.randint(15, 25)
-                print("You use a potion and gain", potion_health, "health.")
-                player_health += potion_health
-                remove_item_from_inventory(inventory, "Potion", 1)  # Example: Remove a potion from inventory
-            else:
-                print("You don't have any potions left.")
+            use_item(inventory)
         elif battle_choice == "3":
             print("You retreat from the battle.")
             return "lose"
@@ -107,6 +101,14 @@ def battle(player_health, creature_health):
         return "lose"
     else:
         return "win"
+
+def add_random_item_to_inventory(inventory):
+    items = [
+        "Sword", "Shield", "Scroll of Fireball", "Potion", "Bow", "Arrow",
+        "Staff of Healing", "Spellbook", "Amulet of Protection"
+    ]
+    item = random.choice(items)
+    add_item_to_inventory(inventory, item, 1)
 
 def add_item_to_inventory(inventory, item, quantity):
     if item in inventory:
@@ -130,6 +132,18 @@ def display_inventory(inventory):
         print("Inventory:")
         for item, quantity in inventory.items():
             print(f"{item}: {quantity}")
+
+def use_item(inventory):
+    print("Available Items:")
+    for item in inventory.keys():
+        print(item)
+    item_to_use = input("Enter the item you want to use: ")
+    if item_to_use in inventory and inventory[item_to_use] > 0:
+        # Implement the functionality of using the item here
+        print(f"You used {item_to_use}.")
+        remove_item_from_inventory(inventory, item_to_use, 1)
+    else:
+        print("Item not found or quantity insufficient.")
 
 if __name__ == "__main__":
     start_game()
