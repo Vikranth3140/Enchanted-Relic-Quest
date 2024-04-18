@@ -81,6 +81,37 @@ def random_event(player_health, creature_health, inventory):
     else:
         print("You explore the area but find nothing of interest.")
 
+def battle(player_health, creature_health, inventory):
+    while player_health > 0 and creature_health > 0:
+        player_attack = random.randint(10, 20)
+        creature_attack = random.randint(5, 15)
+
+        print("\nPlayer health:", player_health)
+        print("Creature health:", creature_health)
+
+        print("1. Attack")
+        print("2. Use item")
+        print("3. Retreat")
+
+        battle_choice = input("Enter your choice: ")
+
+        if battle_choice == "1":
+            print("You attack the creature and deal", player_attack, "damage.")
+            creature_health -= player_attack
+
+            print("The creature attacks you and deals", creature_attack, "damage.")
+            player_health -= creature_attack
+        elif battle_choice == "2":
+            use_item_from_inventory(player_health, inventory)
+        elif battle_choice == "3":
+            print("You retreat from the battle.")
+            return "lose"
+
+    if player_health <= 0:
+        return "lose"
+    else:
+        return "win"
+
 def generate_random_inventory():
     items = ["Sword", "Shield", "Scroll of Fireball", "Potion"]
     new_inventory = {}
@@ -97,7 +128,6 @@ def merge_inventories(inventory, new_inventory):
             inventory[item] = quantity
 
 def random_item_effect(player_health, inventory):
-    # Fix enemy health
     random_item = random.choice(["Sword", "Shield", "Scroll of Fireball", "Potion"])
     if random_item == "Sword":
         player_health += 20
