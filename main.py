@@ -22,8 +22,7 @@ def start_game():
         print("2. Go right")
         print("3. Go straight ahead")
         print("4. Check inventory")
-        print("5. Use item from inventory")
-        print("6. Quit game")
+        print("5. Quit game")
 
         choice = input("Enter your choice: ")
 
@@ -36,8 +35,6 @@ def start_game():
         elif choice == "4":
             display_inventory(inventory)
         elif choice == "5":
-            use_item_from_inventory(player_health, inventory)
-        elif choice == "6":
             print("Exiting game.")
             is_alive = False
         else:
@@ -62,7 +59,6 @@ def random_event(player_health, creature_health, inventory):
         treasure_health = random.randint(20, 40)
         print("You find a treasure chest! You gain", treasure_health, "health.")
         player_health += treasure_health
-        add_random_item_to_inventory(inventory)
     elif event == "creature":
         print("You encounter a hostile creature!")
         battle_result = battle(player_health, creature_health, inventory)
@@ -73,7 +69,6 @@ def random_event(player_health, creature_health, inventory):
             quit()
     elif event == "random_item":
         print("You stumble upon a mysterious item!")
-        random_item_effect(player_health, creature_health, inventory)
     else:
         print("You explore the area but find nothing of interest.")
 
@@ -116,13 +111,13 @@ def use_item_from_inventory(player_health, creature_health, inventory):
     item_to_use = input("Enter the item you want to use: ")
     if item_to_use in inventory and inventory[item_to_use] > 0:
         if item_to_use in ["Potion", "Sword", "Shield", "Scroll of Fireball"]:
-            random_item_effect(player_health, creature_health, inventory, item_to_use)
+            item_effect(player_health, creature_health, inventory, item_to_use)
         else:
             print("You cannot use this item in battle as you do not have in in your inventory.")
     else:
         print("Item not found in inventory or quantity insufficient.")
 
-def random_item_effect(player_health, creature_health, inventory, random_item):
+def item_effect(player_health, creature_health, inventory, random_item):
     if random_item == "Sword":
         player_health += 20
         remove_item_from_inventory(inventory, "Sword", 1)
