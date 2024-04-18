@@ -1,7 +1,7 @@
 import random
 
 def introduction():
-    print("Welcome to the Text Adventure Game!")
+    print("Welcome to the Quest for the Enchanted Relic!")
     print("You are on a quest to retrieve a magical artifact from a mythical creature's lair.")
     print("This artifact is crucial for restoring peace to the kingdom.")
     print("Your journey begins at the entrance to the creature's lair.")
@@ -51,7 +51,8 @@ def battle(player_health, creature_health):
         print("Creature health:", creature_health)
 
         print("1. Attack")
-        print("2. Retreat")
+        print("2. Use potion")
+        print("3. Retreat")
 
         battle_choice = input("Enter your choice: ")
 
@@ -62,6 +63,10 @@ def battle(player_health, creature_health):
             print("The creature attacks you and deals", creature_attack, "damage.")
             player_health -= creature_attack
         elif battle_choice == "2":
+            potion_health = random.randint(15, 25)
+            print("You use a potion and gain", potion_health, "health.")
+            player_health += potion_health
+        elif battle_choice == "3":
             print("You retreat from the battle.")
             return "lose"
 
