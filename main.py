@@ -97,31 +97,21 @@ def merge_inventories(inventory, new_inventory):
             inventory[item] = quantity
 
 def random_item_effect(player_health, inventory):
-    items = {
-        "Sword": "You found a powerful sword! Your attack damage is increased.",
-        "Shield": "You obtained a sturdy shield! You take reduced damage in battles.",
-        "Scroll of Fireball": "You acquired a Scroll of Fireball! You can use it to deal massive damage in battles.",
-        "Potion": "You found a healing potion! You can use it to restore health during battles."
-    }
-    random_item = random.choice(list(items.keys()))
-    print(items[random_item])
-    apply_random_item_effect(random_item, player_health, inventory)
-
-def apply_random_item_effect(random_item, player_health, inventory):
+    # Fix enemy health
+    random_item = random.choice(["Sword", "Shield", "Scroll of Fireball", "Potion"])
     if random_item == "Sword":
-        # Increase player's attack damage
-        pass  # Implement the effect based on your game's mechanics
+        player_health += 20
+        print("You found a powerful sword! Your attack damage is increased.")
     elif random_item == "Shield":
-        # Reduce damage taken by player
-        pass  # Implement the effect based on your game's mechanics
+        player_health -= 10
+        print("You obtained a sturdy shield! You take reduced damage in battles.")
     elif random_item == "Scroll of Fireball":
-        # Deal massive damage to enemy in battle
-        pass  # Implement the effect based on your game's mechanics
+       enemy_health -= 50
+       print("You acquired a Scroll of Fireball! You can use it to deal massive damage in battles.")
     elif random_item == "Potion":
-        # Restore player's health during battle
-        pass  # Implement the effect based on your game's mechanics
-    # You can add more effects for other items as needed
-
+        potion_health = random.randint(15, 25)
+        print(f"You found a healing potion! You can use it to restore health during battles. You gain {potion_health} health.")
+        player_health += potion_health
 def use_item_from_inventory(player_health, inventory):
     print("Items in inventory:")
     for item, quantity in inventory.items():
