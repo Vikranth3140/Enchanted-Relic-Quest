@@ -1,6 +1,8 @@
 import random
+import os
 
 def introduction():
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Welcome to the Quest for the Enchanted Relic!")
     print("You are on a quest to retrieve a magical artifact from a mythical creature's lair.")
     print("This artifact is crucial for restoring peace to the kingdom.")
